@@ -1,35 +1,64 @@
 class Chronometer {
   constructor() {
-    // ... your code goes here
+    this.currentTime = 0;
+    this.intervalId = null;
+    this.milliseconds = 0;
   }
 
-  start(callback) {
-    // ... your code goes here
-  }
+  // start(callback) {
+  //   this.intervalId = setInterval(() =>
+  //   {this.currentTime++;
+  //     if (callback) callback();
+  //   console.log(this.currentTime);
+  //   }, 1000);
+  // }
+
+start(callback) {
+ this.intervalId = setInterval(() => {
+
+  if (callback) { // si el método start recibe la función callback tenemos que ejecutar la función callback
+   callback();
+   }
+
+  this.milliseconds++; // cada 10 milisegundos sumamos un número a milliseconds
+
+  if(this.milliseconds === 99){ //si los miliseconds son igual a 99 (pq no queremos que los milliseconds lleguen a 100);
+  this.currentTime++; // mientras la condición suceda sumamos un número a currentTime
+   this.milliseconds = 0; // reseteamos los milliseconds para que se produzca todo el rato un bucle.
+   }
+   }, 10);
+ }
 
   getMinutes() {
-    // ... your code goes here
+    return Math.floor(this.currentTime/60);
   }
 
   getSeconds() {
-    // ... your code goes here
+    return this.currentTime%60;
   }
 
+
   computeTwoDigitNumber(value) {
-    // ... your code goes here
+    return ('0'+value).slice(-2);
   }
 
   stop() {
-    // ... your code goes here
+    clearInterval(this.intervalId);
   }
 
   reset() {
-    // ... your code goes here
+    this.currentTime = 0;  
+    this.milliseconds = 0;
   }
 
   split() {
-    // ... your code goes here
-  }
+    const minutes = this.computeTwoDigitNumber(this.getMinutes());
+    const seconds = this.computeTwoDigitNumber(this.getSeconds());
+    const milliseconds = this.computeTwoDigitNumber(this.milliseconds); 
+    return `${minutes}:${seconds}:${milliseconds}`;
+
+    // return `${minutes}:${seconds}`;
+    }
 }
 
 // The following is required to make unit tests work.
